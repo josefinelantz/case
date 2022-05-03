@@ -17,12 +17,6 @@ var COUNTRIES = {
 };
 
 /*
- Returns IBAN with the four inital chars moved to the end of the string
-*/
-IBAN.rearrange = (input) => {
-	return input.substring(4, input.length) + input.substring(0, 4);
-} 
-/*
  Returns IBAN as a decimal number
 */
 IBAN.toNumber = (iban) => {
@@ -52,7 +46,8 @@ IBAN.toNumber = (iban) => {
 
 IBAN.validate = (input) => {
 	// Make input upper case and keep alpha numeric chars only
-	let iban = String.toUpperCase().replace(/[^A-Z0-9]/g, ""),
+	let iban = input.toUpperCase().replace(/[^A-Z0-9]/g, "");
+	
 	// Extract country code, check sum and rest
 	number = iban.match(/^([A-Z]{2})(\d{2})([A-Z\d]+)$/);
 
@@ -61,11 +56,12 @@ IBAN.validate = (input) => {
 		return false;
 	}
 	// Move country code and check sum to end of string 
-	let rearranged = IBAN.rearrange(number);
+	let rearranged = number[3]+ number[1] + number[2];
+	
 	// Convert letters to numbers
 	let digits = IBAN.toNumber(rearranged);
-	// Check modulo 97
-	return mod97(digits);
+	// Check modulo 97 on iban
+	return IBAN.mod97(digits);
 }
 
 IBAN.mod97 = (iban) => {
