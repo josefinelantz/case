@@ -4,7 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 // Require cors to allow requests from other domains
 const cors = require("cors");
-
+// Require validate function
+let validate = require("./iban");
 // Declare app variable and assign an instance of express to it
 const app = express();
 // Tell express to use body-parser
@@ -20,10 +21,10 @@ app.use(cors());
 app.post("/validate", (req, res) => {
 	// Get access to the posted IBAN
 	const { IBAN } = req.body;
+	
+}
 
-});
-
-
+	
 app.listen(4000, () => {
 	console.log("Listening on 4000");
 });
